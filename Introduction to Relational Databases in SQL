@@ -1,0 +1,64 @@
+#Introduction to Relational Databases in SQL 
+#DataCamp Course
+
+#Chapter 1
+-- Create a table for the professors entity type
+CREATE TABLE professors (
+ firstname text,
+ lastname text 
+);
+
+-- Print the contents of this table
+SELECT * 
+FROM professors
+
+ALTER TABLE professors
+ADD COLUMN university_shortname text;
+
+-- Print the contents of this table
+SELECT * 
+FROM professors
+
+-- Rename the organisation column
+ALTER TABLE affiliations
+RENAME organisation  TO organization;
+
+-- Insert unique professors into the new table
+INSERT INTO professors 
+SELECT DISTINCT firstname, lastname, university_shortname 
+FROM university_professors;
+
+-- Doublecheck the contents of professors
+SELECT * 
+FROM professors;
+
+-- Delete the university_professors table
+DROP TABLE university_professors;
+
+#Chapter 2
+
+CREATE TABLE transactions (
+ transaction_date date, 
+ amount integer,
+ fee text
+);
+
+-- Let's add a record to the table
+INSERT INTO transactions (transaction_date, amount, fee) 
+VALUES ('2018-09-24', 5454, '30');
+
+-- Doublecheck the contents
+SELECT *
+FROM transactions;
+
+
+
+
+
+
+
+
+
+
+
+
