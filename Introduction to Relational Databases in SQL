@@ -51,7 +51,15 @@ VALUES ('2018-09-24', 5454, '30');
 SELECT *
 FROM transactions;
 
+SELECT transaction_date, amount + fee AS net_amount 
+FROM transactions;
 
+SELECT CAST(some_column AS integer)
+FROM table;
+
+-- Calculate the net amount as amount + fee
+SELECT transaction_date, amount + CAST(fee AS integer) AS net_amount 
+FROM transactions;
 
 
 
