@@ -61,12 +61,129 @@ FROM table;
 SELECT transaction_date, amount + CAST(fee AS integer) AS net_amount 
 FROM transactions;
 
+-- Select the university_shortname column
+SELECT DISTINCT(university_shortname) 
+FROM professors;
 
+ALTER TABLE table_name
+ALTER COLUMN column_name
+TYPE varchar(10)
 
+-- Specify the correct fixed-length character type
+ALTER TABLE professors
+ALTER COLUMN university_shortname
+TYPE char(3);
 
+-- Change the type of firstname
+ALTER TABLE professors
+ALTER COLUMN  firstname
+TYPE varchar(64);
 
+-- Convert the values in firstname to a max. of 16 characters
+ALTER TABLE professors 
+ALTER COLUMN firstname 
+TYPE varchar(16)
+USING SUBSTRING(firstname FROM 1 FOR 16)
 
+-- Disallow NULL values in firstname
+ALTER TABLE professors 
+ALTER COLUMN firstname SET NOT NULL;
 
+-- Disallow NULL values in lastname
+ALTER TABLE professors
+ALTER COLUMN lastname SET NOT NULL;
 
+-- Make universities.university_shortname unique
+ALTER TABLE universities
+ADD CONSTRAINT university_shortname_unq UNIQUE(university_shortname;
+-- Make organizations.organization unique
+ALTER TABLE organizations
+ADD CONSTRAINT organization_unq UNIQUE (organization)
 
+-- Count the number of rows in universities
+SELECT COUNT(*)
+FROM universities;
 
+-- Count the number of distinct values in the university_city column
+SELECT COUNT(DISTINCT(university_city)) 
+FROM universities;
+
+#There's a very basic way of finding out what qualifies for a key in an existing, populated table:
+#Count the distinct records for all possible combinations of columns. If the resulting number x equals the number of all rows in the table for a combination, you have discovered a superkey.
+#Then remove one column after another until you can no longer remove columns without seeing the number x decrease. If that is the case, you have discovered a (candidate) key.
+#The table professors has 551 rows. It has only one possible candidate key, which is a combination of two attributes. You might want to try different combinations using the "Run code" button. Once you have found the solution, you can submit your answer.
+
+-- Rename the organization column to id
+ALTER TABLE organizations
+RENAME COLUMN organization TO id;
+
+-- Make id a primary key
+ALTER TABLE organizations
+ADD CONSTRAINT organization_pk PRIMARY KEY (id);
+
+-- Rename the university_shortname column to id
+ALTER TABLE universities
+RENAME COLUMN university_shortname TO id;
+
+-- Make id a primary key
+ALTER TABLE universities
+ADD CONSTRAINT university_pk PRIMARY KEY (id);
+
+-- Add the new column to the table
+ALTER TABLE professors 
+ADD COLUMN id serial;
+
+-- Make id a primary key
+ALTER TABLE professors 
+ADD CONSTRAINT professors_pkey PRIMARY KEY (id);
+
+-- Have a look at the first 10 rows of professors
+SELECT *
+FROM professors
+LIMIT 10;
+
+-- Count the number of distinct rows with columns make, model
+SELECT COUNT(DISTINCT(make, model)) 
+FROM cars;
+
+-- Add the id column
+ALTER TABLE cars
+ADD COLUMN id varchar(128);
+
+-- Update id with make + model
+UPDATE cars
+SET id = CONCAT(make, model);
+
+-- Count the number of distinct rows with columns make, model
+SELECT COUNT(DISTINCT(make, model)) 
+FROM cars;
+
+-- Add the id column
+ALTER TABLE cars
+ADD COLUMN id varchar(128);
+
+-- Update id with make + model
+UPDATE cars
+SET id = CONCAT(make, model);
+
+-- Make id a primary key
+ALTER TABLE cars
+ADD CONSTRAINT id_pk PRIMARY KEY(id);
+
+-- Have a look at the table
+SELECT * FROM cars;
+
+-- Create the table
+CREATE TABLE students (
+  last_name varchar(128) not null,
+  ssn integer PRIMARY KEY,
+  phone_no char(12)
+);
+
+-- Rename the university_shortname column
+ALTER TABLE professors
+RENAME COLUMN university_shortname TO university_id;
+
+-- Add a foreign key on professors referencing universities
+ALTER TABLE professors
+ADD CONSTRAINT professors_fkey FOREIGN KEY (university_id) REFERENCES universities (id);
